@@ -17,6 +17,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Better Auth app",
   description: "better auth app",
+  openGraph: {
+    title: "Better Auth app",
+    description: "better auth app",
+    type: "website",
+    locale: "en_US",
+    siteName: "Better Auth app",
+    url: "https://better-auth.vercel.app",
+  },
   keywords: ["better auth", "auth", "nextjs", "react", "typescript"],
 };
 

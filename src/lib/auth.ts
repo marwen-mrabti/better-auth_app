@@ -1,3 +1,4 @@
+import { sendEmail } from "@/actions/send-email";
 import { db } from "@/db";
 import { account, session, user, verification } from "@/db/schemas/auth-schema";
 import env from "@/lib/env";
@@ -42,8 +43,7 @@ export const auth = betterAuth({
   plugins: [
     magicLink({
       sendMagicLink: async ({ email, token, url }, request) => {
-        console.log(email, token, url);
-        // send email to user
+        await sendEmail({ magicLink: url, email });
       },
     }),
     nextCookies(),
