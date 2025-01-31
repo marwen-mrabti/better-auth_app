@@ -10,10 +10,12 @@ const envSchema = z.object({
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
 
+  SENDGRID_API_KEY: z.string(),
+
   SMTP_HOST: z.string(),
   SMTP_PORT: z.coerce.number().positive().int(),
-  SMTP_EMAIL: z.string().email(),
-  SMTP_PASSWORD: z.string(),
+  SMTP_USER: z.string(),
+  SMTP_PASS: z.string(),
 
   TURSO_DATABASE_URL: z
     .string()

@@ -1,5 +1,5 @@
 import { MagicLinkEmail } from "@/email-templates/magic-link-template";
-import { sendEmail } from "@/services/send-email";
+import { sendEmail } from "@/services/send-email-smtp";
 
 interface Props {
   email: string;
