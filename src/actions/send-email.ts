@@ -13,22 +13,21 @@ export async function sendEmail({
   magicLink: string;
   email: string;
 }) {
+  const transporter = nodemailer.createTransport({
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    auth: {
+      user: env.SMTP_EMAIL,
+      pass: env.SMTP_PASSWORD,
+    },
+    secure: process.env.NODE_ENV === "production",
+    tls: {
+      rejectUnauthorized: process.env.NODE_ENV === "production",
+    },
+  });
   try {
-    const transporter = await nodemailer.createTransport({
-      host: env.SMTP_HOST,
-      port: env.SMTP_PORT,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASS,
-      },
-      secure: process.env.NODE_ENV === "production",
-      tls: {
-        rejectUnauthorized: process.env.NODE_ENV === "production",
-      },
-    });
-
-    if (!transporter.verify) {
-      console.log("transporter.verify", transporter.verify);
+    const transporterVerified = await transporter.verify();
+    if (!transporterVerified) {
       return NextResponse.json(
         {
           message: "Something went wrong",
@@ -40,8 +39,9 @@ export async function sendEmail({
     }
 
     const emailHtml = await render(MagicLinkEmail({ magicLink }));
+
     const mailOptions = {
-      from: "noreply@better-auth.com",
+      from: "noreply@auth-playground.com",
       to: email,
       subject: "Login link to your Better-Auth account",
       html: emailHtml,

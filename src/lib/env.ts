@@ -12,8 +12,8 @@ const envSchema = z.object({
 
   SMTP_HOST: z.string(),
   SMTP_PORT: z.coerce.number().positive().int(),
-  SMTP_USER: z.string(),
-  SMTP_PASS: z.string(),
+  SMTP_EMAIL: z.string().email(),
+  SMTP_PASSWORD: z.string(),
 
   TURSO_DATABASE_URL: z
     .string()
