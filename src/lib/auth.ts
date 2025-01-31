@@ -4,6 +4,7 @@ import env from "@/lib/env";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
+import { magicLink } from "better-auth/plugins";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -39,11 +40,12 @@ export const auth = betterAuth({
   },
 
   plugins: [
-    // magicLink({
-    //   sendMagicLink: async ({ email, token, url }, request) => {
-    //     // send email to user
-    //   },
-    // }),
+    magicLink({
+      sendMagicLink: async ({ email, token, url }, request) => {
+        console.log(email, token, url);
+        // send email to user
+      },
+    }),
     nextCookies(),
   ],
 } satisfies BetterAuthOptions);
