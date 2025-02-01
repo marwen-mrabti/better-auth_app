@@ -8,6 +8,9 @@ import { nextCookies } from "better-auth/next-js";
 import { magicLink } from "better-auth/plugins";
 
 export const auth = betterAuth({
+  appName: "auth-playground",
+
+  // database adapter
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema: {
@@ -42,6 +45,7 @@ export const auth = betterAuth({
 
   plugins: [
     magicLink({
+      expiresIn: 60 * 20, // the link will expire after 20 minutes
       sendMagicLink: async ({ email, token, url }, request) => {
         await sendMagicLinkEmail({ magicLink: url, email });
       },

@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Better Auth app",
+  title: "auth-playground",
   description: "better auth app",
   openGraph: {
-    title: "Better Auth app",
-    description: "better auth app",
+    title: "auth-playground",
+    description: "auth playground app for better-auth",
     type: "website",
     locale: "en_US",
     siteName: "Better Auth app",

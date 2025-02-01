@@ -26,8 +26,10 @@ export const MagicLinkEmail = ({ magicLink }: Props) => {
           <Heading style={h1}>Sign in to Your Account</Heading>
 
           <Text style={text}>
-            Click the button below to securely sign in to your account. This
-            link will expire in 10 minutes.
+            Click the button below to securely sign in to your account.{" "}
+            <span style={{ color: "#bb1111" }}>
+              This link will expire in 20 minutes.
+            </span>
           </Text>
 
           <Section style={buttonContainer}>
