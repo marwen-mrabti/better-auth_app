@@ -1,7 +1,6 @@
 "use server";
 
 import env from "@/lib/env";
-import { render } from "@react-email/render";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -9,9 +8,7 @@ interface EmailOptions {
   from: string;
   to: string;
   subject: string;
-  html?: string;
-  text?: string;
-  template?: React.ReactElement;
+  mailBody: string;
 }
 
 export async function sendEmail(
@@ -25,7 +22,6 @@ export async function sendEmail(
       user: env.SMTP_USER,
       pass: env.SMTP_PASS,
     },
-
     tls: {
       rejectUnauthorized: process.env.NODE_ENV === "production",
     },
@@ -41,15 +37,10 @@ export async function sendEmail(
       );
     }
 
-    // Render HTML if a React email template is provided
-    const emailHtml = emailOptions.template
-      ? await render(emailOptions.template)
-      : emailOptions.html;
-
     // Prepare mail options
     const mailOptions = {
       ...emailOptions,
-      html: emailHtml,
+      html: emailOptions.mailBody,
     };
 
     await transporter.sendMail(mailOptions);

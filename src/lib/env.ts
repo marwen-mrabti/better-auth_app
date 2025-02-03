@@ -1,52 +1,70 @@
-import { z, ZodError } from "zod";
+import { createEnv } from "@t3-oss/env-nextjs";
+import { StandardSchemaV1 } from "node_modules/zod/lib/standard-schema";
+import { z } from "zod";
 
-const envSchema = z.object({
-  BETTER_AUTH_URL: z.string().url(),
-  BETTER_AUTH_SECRET: z
-    .string()
-    .min(32, { message: "secret must be at least 32 characters long" }),
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  GITHUB_CLIENT_ID: z.string(),
-  GITHUB_CLIENT_SECRET: z.string(),
+const env = createEnv({
+  server: {
+    BETTER_AUTH_SECRET: z
+      .string()
+      .min(32, { message: "secret must be at least 32 characters long" }),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    GITHUB_CLIENT_ID: z.string(),
+    GITHUB_CLIENT_SECRET: z.string(),
 
-  SENDGRID_API_KEY: z.string(),
+    SMTP_HOST: z.string(),
+    SMTP_PORT: z.coerce.number().positive().int(),
+    SMTP_USER: z.string(),
+    SMTP_PASS: z.string(),
 
-  SMTP_HOST: z.string(),
-  SMTP_PORT: z.coerce.number().positive().int(),
-  SMTP_USER: z.string(),
-  SMTP_PASS: z.string(),
+    NEON_DATABASE_URL: z
+      .string()
+      .url()
+      .refine((url) => url.startsWith("postgresql://neondb"), {
+        message: "invalid database url",
+      }),
+  },
 
-  TURSO_DATABASE_URL: z
-    .string()
-    .url()
-    .refine((url) => url.startsWith("libsql://"), {
-      message: "invalid database url",
-    }),
-  TURSO_AUTH_TOKEN: z.string(),
-});
+  client: {
+    NEXT_PUBLIC_BETTER_AUTH_URL: z.string().url(),
+  },
 
-export type T_Env = z.infer<typeof envSchema>;
-let env: T_Env;
-try {
-  env = envSchema.parse(process.env);
-} catch (error: unknown) {
-  if (error instanceof ZodError) {
+  runtimeEnv: {
+    NEON_DATABASE_URL: process.env.NEON_DATABASE_URL,
+    NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+  },
+
+  /**
+   * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
+   * `SOME_VAR=''` will throw an error.
+   */
+  emptyStringAsUndefined: true,
+
+  onValidationError: (issues: readonly StandardSchemaV1.Issue[]) => {
     console.error(
       "❌ Invalid environment variables:",
-      error.flatten().fieldErrors,
+      Object.fromEntries(
+        issues.map((issue) => [issue?.path?.join(".") ?? "", issue.message]),
+      ),
     );
-    throw new Error("Invalid environment variables");
-  }
-  process.exit(1);
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-    interface ProcessEnv extends T_Env {}
-  }
-}
+    process.exit(1);
+  },
+  // Called when server variables are accessed on the client.
+  onInvalidAccess: (variable: string) => {
+    throw new Error(
+      "❌ Attempted to access a server-side environment variable on the client",
+    );
+  },
+});
 
 export default env;

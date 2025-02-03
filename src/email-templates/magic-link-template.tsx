@@ -11,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { render } from "@react-email/render";
 
 interface Props {
   magicLink: string;
@@ -26,7 +27,7 @@ export const MagicLinkEmail = ({ magicLink }: Props) => {
           <Heading style={h1}>Sign in to Your Account</Heading>
 
           <Text style={text}>
-            Click the button below to securely sign in to your account.{" "}
+            Click the button below to securely sign in to your account. <br />
             <span style={{ color: "#bb1111" }}>
               This link will expire in 20 minutes.
             </span>
@@ -89,6 +90,10 @@ export const MagicLinkEmail = ({ magicLink }: Props) => {
       </Body>
     </Html>
   );
+};
+
+export const RenderedMagicLinkEmail = ({ magicLink }: Props) => {
+  return render(MagicLinkEmail({ magicLink }));
 };
 
 const main = {

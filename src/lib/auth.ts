@@ -1,6 +1,11 @@
-import { sendMagicLinkEmail } from "@/actions/send-magic-link-email";
 import { db } from "@/db";
-import { account, session, user, verification } from "@/db/schemas/auth-schema";
+import {
+  accountsTable,
+  sessionsTable,
+  usersTable,
+  verificationsTable,
+} from "@/db/schemas/auth-schema";
+import { RenderedMagicLinkEmail } from "@/email-templates/magic-link-template";
 import env from "@/lib/env";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -12,12 +17,12 @@ export const auth = betterAuth({
 
   // database adapter
   database: drizzleAdapter(db, {
-    provider: "sqlite",
+    provider: "pg",
     schema: {
-      user,
-      account,
-      session,
-      verification,
+      user: usersTable,
+      session: sessionsTable,
+      account: accountsTable,
+      verification: verificationsTable,
     },
   }),
 
@@ -47,7 +52,29 @@ export const auth = betterAuth({
     magicLink({
       expiresIn: 60 * 20, // the link will expire after 20 minutes
       sendMagicLink: async ({ email, token, url }, request) => {
-        await sendMagicLinkEmail({ magicLink: url, email });
+        //? render email body
+        const htmlEmailBody = await RenderedMagicLinkEmail({ magicLink: url });
+        //! send email using server action
+        // await sendMagicLinkEmail({ email, mailBody: htmlEmailBody });
+        //! send email using api route
+        const response = await fetch(
+          env.NEXT_PUBLIC_BETTER_AUTH_URL + "/api/send",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              from: "noreply@auth-playground.com",
+              to: email,
+              subject: "Login link to your Better-Auth account",
+              mailBody: htmlEmailBody,
+            }),
+          },
+        );
+        if (response.status !== 200) {
+          throw new Error("Failed to send magic link");
+        }
       },
     }),
     nextCookies(),
