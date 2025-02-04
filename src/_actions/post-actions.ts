@@ -65,3 +65,45 @@ export async function createPost(prevState: unknown, formData: FormData) {
 
   revalidateTag("posts");
 }
+
+export const deletePost = async (postId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
+    redirect("/sign-in");
+  }
+  const userId = session.user.id;
+
+  const response = await fetch(
+    `${env.NEXT_PUBLIC_APP_URL}/api/posts/${userId}/${postId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (response.status !== 200) {
+    const error = await response.json();
+    console.log("delete post error:", error);
+    return {
+      errors: null,
+      message: "Failed to delete post",
+      inputs: null,
+    };
+  }
+
+  revalidateTag("posts");
+};
+
+export const updatePost = async (prevState: unknown, formData: FormData) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
+    redirect("/sign-in");
+  }
+  const userId = session.user.id;
+};

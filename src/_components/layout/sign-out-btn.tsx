@@ -38,10 +38,10 @@ export default function SignOutBtn() {
     <Button
       variant="destructive"
       disabled={pending}
-      className="disabled:cursor-not-allowed disabled:opacity-50"
+      className="bg-destructive/90 text-destructive-foreground hover:bg-destructive/80 disabled:cursor-not-allowed disabled:opacity-50"
       onClick={handleOnSignOut}
     >
-      logout
+      {pending ? "logging out..." : "logout"}
     </Button>
   );
 }

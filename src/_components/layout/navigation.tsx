@@ -9,8 +9,8 @@ export default function Navigation() {
   const { data: session, isPending } = authClient.useSession();
 
   return (
-    <header className="bg-background sticky top-0 z-100 grid grid-cols-[auto_1fr] place-items-center gap-4 border-b-1 px-4 py-2">
-      <h1 className="text-primary text-3xl font-bold">Better-Auth</h1>
+    <header className="bg-background sticky top-0 z-100 grid grid-cols-[auto_1fr] place-items-center gap-4 border-b-1 px-4 py-2 md:px-8">
+      <h1 className="text-primary text-3xl font-bold">Auth Playground</h1>
       <nav className="flex w-full items-center justify-end gap-4">
         <Link
           href="/"
