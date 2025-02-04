@@ -1,37 +1,49 @@
-import { auth } from "@/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type { Metadata } from "next";
+import { CreatePostForm } from "@/_components/feature/posts/create-post-form";
+import PostsList, {
+  PostsSkeleton,
+} from "@/_components/feature/posts/post-list";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/_components/ui/card";
+import { auth } from "@/lib/auth";
+import { Plus } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
+import { Suspense } from "react";
 
 export default async function Dashboard() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
   if (!session) {
     return redirect("/sign-in");
   }
 
   return (
-    <main className="container mx-auto flex flex-col items-center justify-center gap-4 py-4">
-      <h2 className="text-2xl">Welcome to the dashboard</h2>
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xl font-semibold">Welcome {session?.user?.name}</h3>
-        <Avatar>
-          <AvatarImage
-            src={session?.user?.image || ""}
-            alt={session?.user?.name}
-          />
-          <AvatarFallback>
-            {session?.user?.name?.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+    <div className="min-h-screen py-10">
+      <div className="container mx-auto max-w-4xl px-4">
+        <Card className="w-full shadow-lg">
+          <CardHeader className="bg-primary text-primary-foreground">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl font-bold">
+                Welcome back {session.user?.name}
+              </CardTitle>
+              <Plus className="h-6 w-6" />
+            </div>
+          </CardHeader>
+          <CardContent className="py-6">
+            <div className="mb-6">
+              <CreatePostForm />
+            </div>
+            <Suspense fallback={<PostsSkeleton />}>
+              <PostsList session={session} />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
-    </main>
+    </div>
   );
 }

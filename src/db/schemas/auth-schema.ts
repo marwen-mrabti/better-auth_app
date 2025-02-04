@@ -1,6 +1,8 @@
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
-export const usersTable = pgTable("users", {
+//!  Don't change the schemas, it's used with better-auth
+
+export const users = pgTable("users", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
@@ -10,7 +12,7 @@ export const usersTable = pgTable("users", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-export const sessionsTable = pgTable("sessions", {
+export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
@@ -20,16 +22,16 @@ export const sessionsTable = pgTable("sessions", {
   userAgent: text("user_agent"),
   userId: text("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => users.id),
 });
 
-export const accountsTable = pgTable("accounts", {
+export const accounts = pgTable("accounts", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
   userId: text("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => users.id),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
@@ -41,7 +43,7 @@ export const accountsTable = pgTable("accounts", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
-export const verificationsTable = pgTable("verifications", {
+export const verifications = pgTable("verifications", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),

@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/_components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ErrorContext } from "@better-fetch/fetch";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { authClient } from "../lib/auth-client";
+import { authClient } from "../../lib/auth-client";
 
 export default function SignOutBtn() {
   const router = useRouter();
@@ -35,15 +35,13 @@ export default function SignOutBtn() {
   };
 
   return (
-
-      <Button
-        variant="destructive"
-        disabled={pending}
-        className="disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={handleOnSignOut}
-      >
-        logout
-      </Button>
-
+    <Button
+      variant="destructive"
+      disabled={pending}
+      className="disabled:cursor-not-allowed disabled:opacity-50"
+      onClick={handleOnSignOut}
+    >
+      logout
+    </Button>
   );
 }

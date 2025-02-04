@@ -1,5 +1,5 @@
-import Navigation from "@/components/navigation";
-import { Toaster } from "@/components/ui/toaster";
+import Navigation from "@/_components/layout/navigation";
+import { Toaster } from "@/_components/ui/toaster";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -34,9 +34,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark scheme-light dark:scheme-dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} relative antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground relative antialiased`}
       >
         <Navigation />
         {children}

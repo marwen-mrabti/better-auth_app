@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1738567841916,
+      "tag": "0000_worthless_spitfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1738571656383,
+      "tag": "0001_flowery_whizzer",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738630506936,
+      "tag": "0002_tidy_rawhide_kid",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1738632288032,
+      "tag": "0003_worried_captain_cross",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1738633233663,
+      "tag": "0004_true_blackheart",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,10 +1,5 @@
 import { db } from "@/db";
-import {
-  accountsTable,
-  sessionsTable,
-  usersTable,
-  verificationsTable,
-} from "@/db/schemas/auth-schema";
+import * as schema from "@/db/schemas/auth-schema";
 import { RenderedMagicLinkEmail } from "@/email-templates/magic-link-template";
 import env from "@/lib/env";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
@@ -19,11 +14,9 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
-      user: usersTable,
-      session: sessionsTable,
-      account: accountsTable,
-      verification: verificationsTable,
+      ...schema,
     },
+    usePlural: true,
   }),
 
   // session
@@ -33,6 +26,12 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60, // Cache duration in seconds
+    },
+  },
+
+  account: {
+    accountLinking: {
+      enabled: true,
     },
   },
 
@@ -57,21 +56,18 @@ export const auth = betterAuth({
         //! send email using server action
         // await sendMagicLinkEmail({ email, mailBody: htmlEmailBody });
         //! send email using api route
-        const response = await fetch(
-          env.NEXT_PUBLIC_BETTER_AUTH_URL + "/api/send",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: "noreply@auth-playground.com",
-              to: email,
-              subject: "Login link to your Better-Auth account",
-              mailBody: htmlEmailBody,
-            }),
+        const response = await fetch(env.NEXT_PUBLIC_APP_URL + "/api/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            from: "noreply@auth-playground.com",
+            to: email,
+            subject: "Login link to your Better-Auth account",
+            mailBody: htmlEmailBody,
+          }),
+        });
         if (response.status !== 200) {
           throw new Error("Failed to send magic link");
         }

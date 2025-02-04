@@ -1,6 +1,6 @@
 "use server";
 
-import { sendEmail } from "@/services/send-email-smtp";
+import { sendEmail } from "@/helpers/send-email";
 
 interface Props {
   email: string;

@@ -11,7 +11,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:studio": "bunx drizzle-kit studio"
+    "db:studio": "bunx drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@better-fetch/fetch": "^1.1.12",

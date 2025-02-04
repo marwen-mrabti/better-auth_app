@@ -1,11 +1,10 @@
 "use client";
 
-import { DividerWithText } from "@/components/login-form/divider-with-text";
-import MagicLinkLogin, {
-  formSchema,
-} from "@/components/login-form/magic-link-login";
-import { SocialLoginButton } from "@/components/login-form/social-login-btn";
-import { Card, CardContent } from "@/components/ui/card";
+
+import { DividerWithText } from "@/_components/feature/sign-in/divider-with-text";
+import MagicLinkLogin, { formSchema } from "@/_components/feature/sign-in/magic-link-login";
+import { SocialLoginButton } from "@/_components/feature/sign-in/social-login-btn";
+import { Card, CardContent } from "@/_components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -30,6 +29,7 @@ export const LoginForm = ({
     await authClient.signIn.social(
       {
         provider,
+        callbackURL: "/dashboard",
       },
       {
         onRequest: () => {
@@ -37,7 +37,6 @@ export const LoginForm = ({
           if (provider === "google") setLoginGooglePending(true);
         },
         onSuccess: async () => {
-          router.push("/dashboard");
           router.refresh();
         },
         onError: (ctx: ErrorContext) => {

@@ -26,12 +26,12 @@ const env = createEnv({
   },
 
   client: {
-    NEXT_PUBLIC_BETTER_AUTH_URL: z.string().url(),
+    NEXT_PUBLIC_APP_URL: z.string().url(),
   },
 
   runtimeEnv: {
     NEON_DATABASE_URL: process.env.NEON_DATABASE_URL,
-    NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
