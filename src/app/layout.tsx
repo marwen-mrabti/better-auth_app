@@ -1,4 +1,4 @@
-import Navigation from "@/_components/layout/navigation";
+import Header from "@/_components/layout/header";
 import { Toaster } from "@/_components/ui/toaster";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -38,9 +38,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground relative antialiased`}
       >
-        <Navigation />
+        <Header />
         {children}
-
         <Toaster />
       </body>
     </html>

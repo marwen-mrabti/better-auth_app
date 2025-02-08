@@ -1,7 +1,9 @@
 import { CreatePostForm } from "@/_components/feature/posts/create-post-form";
 import PostsList, {
   PostsSkeleton,
+  type SearchParams,
 } from "@/_components/feature/posts/post-list";
+import SearchBox from "@/_components/feature/posts/search-box";
 import {
   Card,
   CardContent,
@@ -13,7 +15,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function Dashboard() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -34,10 +40,13 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent className="py-6">
             <div className="mb-6">
+              <SearchBox />
+            </div>
+            <div className="mb-6">
               <CreatePostForm />
             </div>
             <Suspense fallback={<PostsSkeleton />}>
-              <PostsList session={session} />
+              <PostsList session={session} searchParams={searchParams} />
             </Suspense>
           </CardContent>
         </Card>

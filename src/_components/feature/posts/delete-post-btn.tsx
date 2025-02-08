@@ -15,7 +15,12 @@ export function DeletePostBtn({ postId }: { postId: string }) {
   return (
     <Form action={action}>
       <Button variant="ghost" type="submit" disabled={isPending}>
-        <Trash2 className="text-destructive h-4 w-4" />
+        {isPending ? (
+          <span className="border-accent border-t-accent-foreground h-4 w-4 animate-spin rounded-full border-2 bg-transparent" />
+        ) : (
+          <Trash2 className="text-destructive h-4 w-4" />
+        )}
+        <span className="sr-only">Delete post</span>
       </Button>
     </Form>
   );

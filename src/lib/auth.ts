@@ -30,6 +30,7 @@ export const auth = betterAuth({
   },
 
   account: {
+    // if the user is using the same email address for multiple accounts, we can link them together
     accountLinking: {
       enabled: true,
     },

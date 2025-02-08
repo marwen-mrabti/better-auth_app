@@ -16,11 +16,17 @@ import { Textarea } from "@/_components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Form from "next/form";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 export function CreatePostForm() {
   const [state, action, isPending] = useActionState(createPost, null);
   const [addNewPost, setAddNewPost] = useState(false);
+
+  useEffect(() => {
+    if (!isPending && !state?.errors) {
+      setAddNewPost(false);
+    }
+  }, [isPending, state]);
 
   return (
     <div className="mx-auto mt-8 max-w-md">
@@ -68,7 +74,7 @@ export function CreatePostForm() {
                 defaultValue={state?.inputs?.title ?? ""}
                 autoComplete="title"
                 required
-                minLength={5}
+                // minLength={5}
                 maxLength={20}
               />
               {state?.errors?.title && (

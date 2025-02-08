@@ -1,0 +1,7 @@
+node_modules
+.bun
+npm-debug.log
+.next
+Dockerfile
+.dockerignore
+.env
