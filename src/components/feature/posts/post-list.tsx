@@ -1,5 +1,5 @@
-import { CardSkeleton, PostCard } from "@/_components/feature/posts/post-card";
 import { getUserPostsBySearchQuery } from "@/_data/posts";
+import { CardSkeleton, PostCard } from "@/components/feature/posts/post-card";
 import { TPost } from "@/db/schemas";
 import { type Session } from "@/lib/auth";
 

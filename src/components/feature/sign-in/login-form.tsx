@@ -1,10 +1,11 @@
 "use client";
 
-
-import { DividerWithText } from "@/_components/feature/sign-in/divider-with-text";
-import MagicLinkLogin, { formSchema } from "@/_components/feature/sign-in/magic-link-login";
-import { SocialLoginButton } from "@/_components/feature/sign-in/social-login-btn";
-import { Card, CardContent } from "@/_components/ui/card";
+import { DividerWithText } from "@/components/feature/sign-in/divider-with-text";
+import MagicLinkLogin, {
+  formSchema,
+} from "@/components/feature/sign-in/magic-link-login";
+import { SocialLoginButton } from "@/components/feature/sign-in/social-login-btn";
+import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";

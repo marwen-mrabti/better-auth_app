@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/_components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ErrorContext } from "@better-fetch/fetch";
 import { useRouter } from "next/navigation";

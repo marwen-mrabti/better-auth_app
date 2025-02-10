@@ -1,7 +1,7 @@
 "use client";
 
-import SignOutBtn from "@/_components/layout/sign-out-btn";
-import { Button } from "@/_components/ui/button";
+import SignOutBtn from "@/components/layout/sign-out-btn";
+import { Button } from "@/components/ui/button";
 import type { Session } from "@/lib/auth";
 import Link from "next/link";
 

@@ -1,4 +1,4 @@
-import Navigation from "@/_components/layout/navigation";
+import Navigation from "@/components/layout/navigation";
 
 export default function Header() {
   return (

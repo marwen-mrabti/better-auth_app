@@ -1,7 +1,7 @@
 "use client";
 
-import AuthBtns from "@/_components/layout/auth-btns";
-import { Avatar, AvatarFallback, AvatarImage } from "@/_components/ui/avatar";
+import AuthBtns from "@/components/layout/auth-btns";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 

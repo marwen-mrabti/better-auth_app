@@ -1,15 +1,10 @@
-import { CreatePostForm } from "@/_components/feature/posts/create-post-form";
+import { CreatePostForm } from "@/components/feature/posts/create-post-form";
 import PostsList, {
   PostsSkeleton,
   type SearchParams,
-} from "@/_components/feature/posts/post-list";
-import SearchBox from "@/_components/feature/posts/search-box";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/_components/ui/card";
+} from "@/components/feature/posts/post-list";
+import SearchBox from "@/components/feature/posts/search-box";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 
 import { createPost } from "@/_actions/post-actions";
-import { Button } from "@/_components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,10 +9,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/_components/ui/card";
-import { Input } from "@/_components/ui/input";
-import { Label } from "@/_components/ui/label";
-import { Textarea } from "@/_components/ui/textarea";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Form from "next/form";

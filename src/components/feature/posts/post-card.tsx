@@ -1,6 +1,6 @@
-import { DeletePostBtn } from "@/_components/feature/posts/delete-post-btn";
-import { Card, CardContent } from "@/_components/ui/card";
-import { Skeleton } from "@/_components/ui/skeleton";
+import { DeletePostBtn } from "@/components/feature/posts/delete-post-btn";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TPost } from "@/db/schemas";
 
 export function PostCard({ post }: { post: TPost }) {

@@ -18,7 +18,6 @@ export async function GET(
     }
 
     let whereClause: SQL | undefined = eq(posts.userId, userId);
-
     if (searchQuery) {
       whereClause = and(
         eq(posts.userId, userId),
@@ -28,7 +27,6 @@ export async function GET(
         ),
       );
     }
-
     const userPosts = await db.query.posts.findMany({
       where: whereClause,
       orderBy: desc(posts.createdAt),
@@ -36,7 +34,7 @@ export async function GET(
 
     return NextResponse.json({ data: userPosts }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching posts:", error); // Log the error for debugging
+    console.error("Error fetching posts:", error);
     return NextResponse.json(
       { message: "Could not fetch posts" },
       { status: 500 },

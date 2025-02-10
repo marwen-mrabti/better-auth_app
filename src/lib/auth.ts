@@ -1,6 +1,6 @@
+import { RenderedMagicLinkEmail } from "@/components/email-templates/magic-link-template";
 import { db } from "@/db";
 import * as schema from "@/db/schemas/auth-schema";
-import { RenderedMagicLinkEmail } from "@/email-templates/magic-link-template";
 import env from "@/lib/env";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -69,7 +69,7 @@ export const auth = betterAuth({
             mailBody: htmlEmailBody,
           }),
         });
-        if (response.status !== 200) {
+        if (!response.ok || response.status !== 200) {
           throw new Error("Failed to send magic link");
         }
       },
