@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -52,6 +53,14 @@ export default function SearchBox() {
         value={searchValues.query}
         onChange={(e) => handleInputChange("query", e.target.value)}
       />
+    </div>
+  );
+}
+
+export function SearchBoxSkeleton() {
+  return (
+    <div className="flex w-full items-center space-x-4">
+      <Skeleton className="h-4 w-full rounded-md" />
     </div>
   );
 }

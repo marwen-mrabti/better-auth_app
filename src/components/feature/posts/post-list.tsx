@@ -1,21 +1,17 @@
-import { getUserPostsBySearchQuery } from "@/_data/posts";
+import { getUserPostsBySearchQuery } from "@/app/_data/posts/get-posts";
 import { CardSkeleton, PostCard } from "@/components/feature/posts/post-card";
 import { TPost } from "@/db/schemas";
-import { type Session } from "@/lib/auth";
 
 export type SearchParams = { [key: string]: string | undefined };
 
 export default async function PostList({
-  session,
   searchParams,
 }: {
-  session: Session;
   searchParams: Promise<SearchParams>;
 }) {
   const { query } = await searchParams;
 
   const posts = (await getUserPostsBySearchQuery({
-    userId: session.user.id,
     query,
   })) as TPost[] | null;
 

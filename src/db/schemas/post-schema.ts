@@ -37,6 +37,6 @@ export const UpdatePostSchema = createInsertSchema(posts, {
 });
 
 // type definitions
-export type TPost = z.infer<typeof PostSchema>;
-export type TInsertPost = z.infer<typeof InsertPostSchema>;
+export type TPost = typeof posts.$inferSelect;
+export type TInsertPost = typeof posts.$inferInsert;
 export type TUpdatePost = z.infer<typeof UpdatePostSchema>;

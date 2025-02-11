@@ -1,6 +1,6 @@
 "use client";
 
-import { createPost } from "@/_actions/post-actions";
+import { createPost } from "@/app/_actions/post-actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,

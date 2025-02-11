@@ -5,7 +5,7 @@ import env from "@/lib/env";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { magicLink } from "better-auth/plugins";
+import { bearer, customSession, magicLink } from "better-auth/plugins";
 
 export const auth = betterAuth({
   appName: "auth-playground",
@@ -49,6 +49,8 @@ export const auth = betterAuth({
   },
 
   plugins: [
+    bearer(),
+    nextCookies(),
     magicLink({
       expiresIn: 60 * 20, // the link will expire after 20 minutes
       sendMagicLink: async ({ email, token, url }, request) => {
@@ -74,7 +76,18 @@ export const auth = betterAuth({
         }
       },
     }),
-    nextCookies(),
+    customSession(async ({ user, session }) => {
+      return {
+        user: {
+          id: user.id,
+          name: user.name,
+          image: user.image,
+        },
+        session: {
+          id: session.id,
+        },
+      };
+    }),
   ],
 } satisfies BetterAuthOptions);
 

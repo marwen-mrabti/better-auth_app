@@ -1,5 +1,3 @@
-"use client";
-
 import SignOutBtn from "@/components/layout/sign-out-btn";
 import { Button } from "@/components/ui/button";
 import type { Session } from "@/lib/auth";
@@ -10,9 +8,6 @@ export default function AuthBtns({ session }: { session: Session | null }) {
     <div className="flex justify-center gap-2">
       <Link href="/sign-in" prefetch={true}>
         <Button variant="default">Sign In</Button>
-      </Link>
-      <Link href="/sign-up" prefetch={true}>
-        <Button variant="outline">Sign Up</Button>
       </Link>
     </div>
   ) : (

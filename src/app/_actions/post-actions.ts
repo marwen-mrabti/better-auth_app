@@ -4,7 +4,7 @@ import { InsertPostSchema } from "@/db/schemas";
 import { auth } from "@/lib/auth";
 import env from "@/lib/env";
 import { revalidateTag } from "next/cache";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function createPost(prevState: unknown, formData: FormData) {
@@ -19,7 +19,6 @@ export async function createPost(prevState: unknown, formData: FormData) {
 
   if (!parsedData.success) {
     const fieldErrors = parsedData.error.flatten().fieldErrors;
-    console.log("create post error:", fieldErrors);
     const formattedErrors: Record<string, string> = {};
     // Format errors for each field
     for (const [field, errors] of Object.entries(fieldErrors)) {
@@ -41,11 +40,14 @@ export async function createPost(prevState: unknown, formData: FormData) {
     redirect("/sign-in");
   }
 
+  const cookieStore = await cookies();
   const response = await fetch(`${env.NEXT_PUBLIC_APP_URL}/api/posts/new`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      cookie: cookieStore.toString(),
     },
+    credentials: "include",
     body: JSON.stringify({
       userId: session.user.id,
       title: parsedData.data.title,
@@ -73,15 +75,17 @@ export const deletePost = async (postId: string) => {
   if (!session) {
     redirect("/sign-in");
   }
-  const userId = session.user.id;
 
+  const cookieStore = await cookies();
   const response = await fetch(
-    `${env.NEXT_PUBLIC_APP_URL}/api/posts/${userId}/${postId}`,
+    `${env.NEXT_PUBLIC_APP_URL}/api/posts/${postId}`,
     {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        cookie: cookieStore.toString(),
       },
+      credentials: "include",
     },
   );
 
@@ -96,14 +100,4 @@ export const deletePost = async (postId: string) => {
   }
 
   revalidateTag("posts");
-};
-
-export const updatePost = async (prevState: unknown, formData: FormData) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session) {
-    redirect("/sign-in");
-  }
-  const userId = session.user.id;
 };

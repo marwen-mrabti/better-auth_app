@@ -1,6 +1,6 @@
 "use client";
 
-import { deletePost } from "@/_actions/post-actions";
+import { deletePost } from "@/app/_actions/post-actions";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import Form from "next/form";

@@ -1,21 +1,25 @@
 import { db } from "@/db";
 import { posts } from "@/db/schemas/post-schema";
+import { auth } from "@/lib/auth";
 import { and, desc, eq, like, or, SQL } from "drizzle-orm";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) {
+export async function GET(request: NextRequest) {
   try {
-    const { userId } = await params;
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return NextResponse.json(
+        { message: "Unauthorized from api" },
+        { status: 401 },
+      );
+    }
 
+    const userId = session.user.id;
     const searchParams = request.nextUrl.searchParams;
     const searchQuery = searchParams.get("query")?.trim() || "";
-
-    if (!userId) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
 
     let whereClause: SQL | undefined = eq(posts.userId, userId);
     if (searchQuery) {
